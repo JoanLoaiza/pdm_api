@@ -26,11 +26,3 @@ Thumbs.db
 .idea/
 *.sublime-project
 *.sublime-workspace
-
-# Configuraciones de herramientas
-.env
-.venv
-venv/
-ENV/
-env.bak/
-venv.bak/

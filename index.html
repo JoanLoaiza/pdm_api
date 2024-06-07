@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Real-Time WebSocket Data</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3"></script>
+    <style>
+        canvas {
+            max-width: 800px;
+            max-height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Real-Time WebSocket Data</h1>
+    <canvas id="realtimeChart"></canvas>
+    
+    <script>
+        const ctx = document.getElementById('realtimeChart').getContext('2d');
+        const data = {
+            labels: [],
+            datasets: [
+                {
+                    label: 'Eje X',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    data: [],
+                    fill: true, // Mostrar el área debajo de la línea
+                },
+                {
+                    label: 'Eje Y',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    data: [],
+                    fill: true, // Mostrar el área debajo de la línea
+                },
+                {
+                    label: 'Eje Z',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    data: [],
+                    fill: true, // Mostrar el área debajo de la línea
+                }
+            ]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'second',
+                            displayFormats: {
+                                second: 'HH:mm:ss'
+                            }
+                        },
+                        ticks: {
+                            source: 'auto',
+                            autoSkip: true,
+                            maxTicksLimit: 20
+                        }
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true
+                    }
+                },
+                animation: {
+                    duration: 0 // Desactivar la animación para actualizaciones instantáneas
+                }
+            }
+        };
+
+        const realtimeChart = new Chart(ctx, config);
+
+        const socket = new WebSocket('ws://localhost:8000/ws');
+
+        socket.onmessage = function(event) {
+            const receivedData = JSON.parse(event.data);
+            const time = new Date(receivedData.fecha);
+
+            data.labels.push(time);
+            data.datasets[0].data.push({ x: time, y: receivedData.eje_x });
+            data.datasets[1].data.push({ x: time, y: receivedData.eje_y });
+            data.datasets[2].data.push({ x: time, y: receivedData.eje_z });
+
+            // Limitar el número de puntos de datos para mantener el gráfico receptivo
+            const maxDataPoints = 100;
+            if (data.labels.length > maxDataPoints) {
+                data.labels.splice(0, data.labels.length - maxDataPoints);
+                data.datasets.forEach(dataset => dataset.data.splice(0, dataset.data.length - maxDataPoints));
+            }
+
+            realtimeChart.update();
+        };
+
+        socket.onopen = function(event) {
+            console.log("Conexión WebSocket abierta");
+        };
+
+        socket.onclose = function(event) {
+            console.log("Conexión WebSocket cerrada");
+        };
+    </script>
+</body>
+</html>
