@@ -1,0 +1,36 @@
+# Entornos virtuales de Python
+tutorial-env/
+env/
+venv/
+
+# Archivos de caché de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos de base de datos
+*.sqlite3
+
+# Configuraciones del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de log
+*.log
+
+# Archivos temporales de Jupyter Notebook
+.ipynb_checkpoints/
+
+# Archivos de IDEs y editores
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Configuraciones de herramientas
+.env
+.venv
+venv/
+ENV/
+env.bak/
+venv.bak/
