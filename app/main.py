@@ -42,4 +42,4 @@ def get_data(db: Session = Depends(get_db)):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="http://servo.ucp.edu.co", port=8000)
+    uvicorn.run(app, host="https://servoapi.ucp.edu.co", port=8000, log_level="info")
