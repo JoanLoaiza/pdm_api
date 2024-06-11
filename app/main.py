@@ -40,6 +40,11 @@ def get_data(db: Session = Depends(get_db)):
     data = get_all_data(db)
     return data
 
+#Crear la ruta docs de la API
+@app.get("/")
+async def root():
+    return {"message": "Welcome to the API"}
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="https://servoapi.ucp.edu.co", port=8000, log_level="info")
