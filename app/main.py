@@ -47,4 +47,7 @@ async def root():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="10.1.11.230", port=8000, log_level="info")
+    print("Running on IP:", "10.1.11.230")
+    print("Port:", 8000)
+    uvicorn.run(app, host="10.1.11.230", port=8000, log_level="info",reload=False)
+
