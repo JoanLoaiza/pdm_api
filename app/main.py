@@ -39,3 +39,7 @@ async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(get_db)
 def get_data(db: Session = Depends(get_db)):
     data = get_all_data(db)
     return data
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="http://servo.ucp.edu.co", port=8000)
