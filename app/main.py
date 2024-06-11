@@ -47,4 +47,4 @@ async def root():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="https://servoapi.ucp.edu.co", port=8000, log_level="info")
+    uvicorn.run(app, host="10.1.11.230", port=8000, log_level="info")
